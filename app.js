@@ -126,3 +126,24 @@ const doRemove = (card) => {
         : badge.textContent = 0;
     setEstado('Se elimino un Like de un articulo');
 };
+
+const filtro = $('#filtro');
+
+const matchText = (card, q) => {
+    const title = card.querySelector('.card-title')?.textContent ?? '';
+    const text = card.querySelector('.card-text')?.textContent ?? '';
+    const haystack = (title + ' ' + text).toLowerCase();
+    return haystack.includes(q);
+};
+
+filtro.addEventListener('input', () => {
+    const q = filtro.value.trim().toLowerCase();
+    const cards = $$('#listaArticulos .card');
+
+    cards.forEach(( card ) => {
+        const ok = q === '' ? true : matchText(card, q);
+        card.hidden = !ok;
+    });
+
+    setEstado(q === '' ? 'Filtro vacio' : `Filtro texto: "${q}"`);
+});
