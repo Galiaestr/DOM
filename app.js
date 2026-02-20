@@ -195,3 +195,42 @@ const applyFilters = () => {
         ? `Filtros: ${parts.join(' + ')}` 
         : 'Filtros: ninguno');
 };
+
+const form = $('#formNewsLetter');
+const email = $ ('#email');
+const interes = $('#interes');
+const feedback = $('#feedback');
+
+//Validar el email con expresion regular simple
+const isValidEmail = (value) => /^[^\s@] +@[^\s@]+\.[^\s@]+$/.test(value); 
+
+form.addEventListener('submit', (e) => {
+    e,preventDefault(); //evitar el encio de formulario
+    const valueEmail = email.value.trim(); 
+    const valueInteres = interes.value.trim();
+
+    email.classList.remove('is-invalid');
+    interes.classsList.remove('is-invalid'); 
+    feedback.textContent = '';
+
+    let ok = true;
+
+    if (!isValidEmail(valuueEmail)) {
+        email.classList.add('is-invalid');
+        ok = false;
+    }
+    if(!valueInteres ) {
+        interes.classList.add('is-invalid');
+        ok = false;
+    }
+    if ( !ok ) {
+        feedback.textContent = 'Revisa los campos marcados';
+        setEstado('Formulario con errores');
+        return;
+    }
+
+    //Simular envio de datos
+    feedback.textContent = `Gracias por suscribirte al tema "${valueInteres}"`;
+    setEstado('Formulario enviado con exito');
+    form.reset();
+});
